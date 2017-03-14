@@ -1,0 +1,85 @@
+---
+title: "Regularized Linear Model"
+output: html_notebook
+---
+This is an R Notebook, its comprised of code chunks that you can run by pressing Ctrl+Alt+I
+
+```{r}
+library(ggplot2)
+library(plyr)
+library(fBasics)
+library(caret)
+library(glmnet)
+train <- read.csv("train.csv",stringsAsFactors = FALSE)
+test <- read.csv("test.csv", stringsAsFactors = FALSE)
+```
+
+```{r}
+dim(train)
+all_data <- rbind(train[,c(1:80)],test)
+dim(all_data)
+```
+Creates a data frame that combines the test and train data
+```{r}
+df <- rbind(data.frame(version="log(price+1)",x=log(train$SalePrice + 1)),
+            data.frame(version="price",x=train$SalePrice))
+ggplot(data=df) +
+  facet_wrap(~version,ncol=2,scales="free_x") +
+  geom_histogram(aes(x=x))
+train$SalePrice <- log(train$SalePrice + 1)
+```
+See the before and after of transforming the sale prices to remove skewness
+```{r}
+train$SalePrice <- log(train$SalePrice + 1)
+```
+
+```{r}
+feature_classes <- sapply(names(all),function(x){class(all_data[[x]])})
+```
+
+sapply applies the second argument, a function that returns the type of feature each column belongs to() either numeric or character). feature_classes is an array that contains feature types, and the indices correspond to the column numbers in the data
+```{r}
+numeric_feats <-names(feature_classes[feature_classes != "character"])
+# determine skew for each numeric feature
+skewed_feats <- sapply(numeric_feats,function(x){skewness(all_data[[x]],na.rm=TRUE)})
+# keep only features that exceed a threshold for skewness
+skewed_feats <- skewed_feats[skewed_feats > 0.75]
+
+# transform excessively skewed features with log(x + 1)
+for(x in names(skewed_feats)) {
+  all_data[[x]] <- log(all_data[[x]] + 1)
+}
+```
+
+```{r}
+# get names of categorical features
+categorical_feats <- names(feature_classes[feature_classes == "character"])
+
+# use dummyVars function from caret library for dummy encoding
+dummies <- dummyVars(~.,all_data[categorical_feats])
+categorical_1_hot <- predict(dummies,all_data[categorical_feats])
+categorical_1_hot[is.na(categorical_1_hot)] <- 0  #for any level that was NA, set to zero
+```
+
+```{r}
+# for any missing values in numeric features, impute mean of that feature
+numeric_df <- all_data[numeric_feats]
+
+for (x in numeric_feats) {
+    mean_value <- mean(train[[x]],na.rm = TRUE)
+    all_data[[x]][is.na(all_data[[x]])] <- mean_value
+}
+```
+
+```{r}
+# reconstruct all_data with pre-processed data
+all_data <- cbind(all_data[numeric_feats],categorical_1_hot)
+
+# create data for training and test
+X_train <- all_data[1:nrow(train),]
+X_test <- all_data[(nrow(train)+1):nrow(all_data),]
+y <- train$SalePrice
+
+write.csv(X_train, file = 'train_processed.csv')
+write.csv(X_test, file = 'test_processed.csv')
+```
