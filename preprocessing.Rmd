@@ -78,8 +78,9 @@ all_data <- cbind(all_data[numeric_feats],categorical_1_hot)
 X_train <- all_data[1:nrow(train),]
 X_test <- all_data[(nrow(train)+1):nrow(all_data),]
 y <- train$SalePrice
+all_train = cbind(X_train, y)
 
 write.csv(X_train, file = 'train_processed.csv')
-write.csv(y, file = 'trainy_processed.csv')
+write.csv(all_train, file = 'trainy_processed.csv')
 write.csv(X_test, file = 'test_processed.csv')
 ```
