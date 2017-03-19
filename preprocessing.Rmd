@@ -9,8 +9,8 @@ library(ggplot2)
 library(plyr)
 library(fBasics)
 library(caret)
-train <- read.csv("train.csv",stringsAsFactors = FALSE)
-test <- read.csv("test.csv", stringsAsFactors = FALSE)
+train <- read.csv("Data/train.csv",stringsAsFactors = FALSE)
+test <- read.csv("Data/test.csv", stringsAsFactors = FALSE)
 ```
 
 ```{r}
@@ -28,12 +28,88 @@ ggplot(data=df) +
 train$SalePrice <- log(train$SalePrice + 1)
 ```
 See the before and after of transforming the sale prices to remove skewness
+
+Removing least useful predictors
 ```{r}
-train$SalePrice <- log(train$SalePrice + 1)
+all_data <- subset(all_data, select=-c(Street, Utilities, LowQualFinSF))
+```
+
+Numerical encoding ordered categorical features, like quality
+```{r}
+all_data$ExterQual[all_data$ExterQual == 'Ex'] <- 4
+all_data$ExterQual[all_data$ExterQual == 'Gd'] <- 3
+all_data$ExterQual[all_data$ExterQual == 'TA'] <- 2
+all_data$ExterQual[all_data$ExterQual == 'Fa'] <- 1
+all_data$ExterQual[all_data$ExterQual == 'Po'] <- 0
+
+all_data$ExterCond[all_data$ExterCond == 'Ex'] <- 4
+all_data$ExterCond[all_data$ExterCond == 'Gd'] <- 3
+all_data$ExterCond[all_data$ExterCond == 'TA'] <- 2
+all_data$ExterCond[all_data$ExterCond == 'Fa'] <- 1
+all_data$ExterCond[all_data$ExterCond == 'Po'] <- 0
+
+all_data$HeatingQC[all_data$HeatingQC == 'Ex'] <- 4
+all_data$HeatingQC[all_data$HeatingQC == 'Gd'] <- 3
+all_data$HeatingQC[all_data$HeatingQC == 'TA'] <- 2
+all_data$HeatingQC[all_data$HeatingQC == 'Fa'] <- 1
+all_data$HeatingQC[all_data$HeatingQC == 'Po'] <- 0
+
+all_data$KitchenQual[all_data$KitchenQual == 'Ex'] <- 4
+all_data$KitchenQual[all_data$KitchenQual == 'Gd'] <- 3
+all_data$KitchenQual[all_data$KitchenQual == 'TA'] <- 2
+all_data$KitchenQual[all_data$KitchenQual == 'Fa'] <- 1
+all_data$KitchenQual[all_data$KitchenQual == 'Po'] <- 0
+
+all_data$Functional[all_data$Functional == 'Typ'] <- 7
+all_data$Functional[all_data$Functional == 'Min1'] <- 6
+all_data$Functional[all_data$Functional == 'Min2'] <- 5
+all_data$Functional[all_data$Functional == 'Mod'] <- 4
+all_data$Functional[all_data$Functional == 'Maj1'] <- 3
+all_data$Functional[all_data$Functional == 'Maj2'] <- 2
+all_data$Functional[all_data$Functional == 'Sev'] <- 1
+all_data$Functional[all_data$Functional == 'Sal'] <- 0
+
+all_data$FireplaceQu[all_data$FireplaceQu == 'Ex'] <- 5
+all_data$FireplaceQu[all_data$FireplaceQu == 'Gd'] <- 4
+all_data$FireplaceQu[all_data$FireplaceQu == 'TA'] <- 3
+all_data$FireplaceQu[all_data$FireplaceQu == 'Fa'] <- 2
+all_data$FireplaceQu[all_data$FireplaceQu == 'Po'] <- 1
+all_data$FireplaceQu[all_data$FireplaceQu == 'NA'] <- 0
+
+all_data$GarageFinish[all_data$GarageFinish == 'Fin'] <- 3
+all_data$GarageFinish[all_data$GarageFinish == 'RFn'] <- 2
+all_data$GarageFinish[all_data$GarageFinish == 'Unf'] <- 1
+all_data$GarageFinish[all_data$GarageFinish == 'NA'] <- 0
+
+all_data$GarageQual[all_data$GarageQual == 'Ex'] <- 5
+all_data$GarageQual[all_data$GarageQual == 'Gd'] <- 4
+all_data$GarageQual[all_data$GarageQual == 'TA'] <- 3
+all_data$GarageQual[all_data$GarageQual == 'Fa'] <- 2
+all_data$GarageQual[all_data$GarageQual == 'Po'] <- 1
+all_data$GarageQual[all_data$GarageQual == 'NA'] <- 0
+
+all_data$GarageCond[all_data$GarageCond == 'Ex'] <- 5
+all_data$GarageCond[all_data$GarageCond == 'Gd'] <- 4
+all_data$GarageCond[all_data$GarageCond == 'TA'] <- 3
+all_data$GarageCond[all_data$GarageCond == 'Fa'] <- 2
+all_data$GarageCond[all_data$GarageCond == 'Po'] <- 1
+all_data$GarageCond[all_data$GarageCond == 'NA'] <- 0
+
+all_data$PoolQC[all_data$PoolQC == 'Ex'] <- 4
+all_data$PoolQC[all_data$PoolQC == 'Gd'] <- 3
+all_data$PoolQC[all_data$PoolQC == 'TA'] <- 2
+all_data$PoolQC[all_data$PoolQC == 'Fa'] <- 1
+all_data$PoolQC[all_data$PoolQC == 'NA'] <- 0
+
+all_data$Fence[all_data$Fence == 'GdPrv'] <- 4
+all_data$Fence[all_data$Fence == 'MnPrv'] <- 3
+all_data$Fence[all_data$Fence == 'GdWo'] <- 2
+all_data$Fence[all_data$Fence == 'MnWw'] <- 1
+all_data$Fence[all_data$Fence == 'NA'] <- 0
 ```
 
 ```{r}
-feature_classes <- sapply(names(all),function(x){class(all_data[[x]])})
+feature_classes <- sapply(names(all_data),function(x){class(all_data[[x]])})
 ```
 
 sapply applies the second argument, a function that returns the type of feature each column belongs to() either numeric or character). feature_classes is an array that contains feature types, and the indices correspond to the column numbers in the data
@@ -53,7 +129,9 @@ for(x in names(skewed_feats)) {
 ```{r}
 # get names of categorical features
 categorical_feats <- names(feature_classes[feature_classes == "character"])
-
+#remove features that have already been encoded above
+remove <- c('ExterQual','ExterCond', 'HeatingQC', 'KitchenQual', 'Functional', 'FireplaceQu', 'GarageFinish', 'GarageQual', 'GarageCond', 'PoolQC', 'Fence')
+categorical_feats <- categorical_feats[! categorical_feats %in% remove]
 # use dummyVars function from caret library for dummy encoding
 dummies <- dummyVars(~.,all_data[categorical_feats])
 categorical_1_hot <- predict(dummies,all_data[categorical_feats])
@@ -80,7 +158,16 @@ X_test <- all_data[(nrow(train)+1):nrow(all_data),]
 y <- train$SalePrice
 all_train = cbind(X_train, y)
 
-write.csv(X_train, file = 'train_processed.csv')
-write.csv(all_train, file = 'trainy_processed.csv')
-write.csv(X_test, file = 'test_processed.csv')
+write.csv(X_train, file = 'Data/train_processed.csv')
+write.csv(all_train, file = 'Data/trainy_processed.csv')
+write.csv(X_test, file = 'Data/test_processed.csv')
 ```
+```{r}
+print(numeric_feats)
+```
+
+```{r}
+print(categorical_feats)
+  print(categorical_feats[! categorical_feats %in% remove])
+```
+
