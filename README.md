@@ -12,6 +12,7 @@ Final project for STAT 1291: Statistics &amp; Data Science
 * Model the data using Lasso, Ridge Regression, KNN, and other models you can think of
 * Get the MSEs and try to optimize the models
 * Try to make a graph of the MSEs vs model like we did in the hwk
+* Make sure you push your code and results to GitHub
 
 ### Lauren To-Do for Next Meeting:
 * Use the processed data that Kevin made
@@ -19,3 +20,4 @@ Final project for STAT 1291: Statistics &amp; Data Science
 * Try to find a good amount of variables to use
 * Get the MSEs and try to optimize the models
 * Try to make a graph of the MSEs vs model like we did in the hwk
+* Make sure you push your code and results to GitHub
