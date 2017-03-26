@@ -21,3 +21,21 @@ Final project for STAT 1291: Statistics &amp; Data Science
 * Get the MSEs and try to optimize the models
 * Try to make a graph of the MSEs vs model like we did in the hwk
 * Make sure you push your code and results to GitHub
+
+### Devansh To-Do for Next Meeting:
+* Try the random forest model
+* Get the MSEs and try to optimize the models
+* Try to make a graph of the MSEs vs model like we did in the hwk
+* Make sure you push your code and results to GitHub
+
+### Weston To-Do for Next Meeting:
+* Try the boosting model
+* Get the MSEs and try to optimize the models
+* Try to make a graph of the MSEs vs model like we did in the hwk
+* Make sure you push your code and results to GitHub
+
+### Devansh To-Do for Next Meeting:
+* Try the normal decision tree and bagging methods
+* Get the MSEs and try to optimize the models
+* Try to make a graph of the MSEs vs model like we did in the hwk
+* Make sure you push your code and results to GitHub
