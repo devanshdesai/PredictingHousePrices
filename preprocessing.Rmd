@@ -29,6 +29,12 @@ train$SalePrice <- log(train$SalePrice + 1)
 ```
 See the before and after of transforming the sale prices to remove skewness
 
+Combining BsmtFinSF1 and BsmtFinSF2 variables
+```{r}
+#all_data$BsmtFinSF1 <- all_data$BsmtFinSF1 + all_data$BsmtFinSF2
+#colnames(BsmtFinSF1) <- "BsmtFinSF"
+```
+
 Removing least useful predictors
 ```{r}
 all_data <- subset(all_data, select=-c(Street, Utilities, PoolArea, MiscFeature))
@@ -169,7 +175,13 @@ for (i in 1:15){
 combine_ext <- combine_ext+0
 all_data[,128:143] <- combine_ext
 all_data[,143:158] <- NULL
+```
+Creating a new variable BsmtQual
+```{r}
+exp(12)
+```
 
+```{r}
 # create data for training and test
 X_train <- all_data[1:nrow(train),]
 X_test <- all_data[(nrow(train)+1):nrow(all_data),]
