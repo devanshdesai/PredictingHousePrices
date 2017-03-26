@@ -31,7 +31,7 @@ See the before and after of transforming the sale prices to remove skewness
 
 Removing least useful predictors
 ```{r}
-all_data <- subset(all_data, select=-c(Street, Utilities, LowQualFinSF))
+all_data <- subset(all_data, select=-c(Street, Utilities, PoolArea, MiscFeature))
 ```
 
 Numerical encoding ordered categorical features, like quality
@@ -149,25 +149,34 @@ for (x in numeric_feats) {
 ```
 
 ```{r}
+a = c(0,1,1,1,0, 0)
+b = c(1,0,1,0,1, 0)
+(a+b)%%2
+```
+
+```{r}
 # reconstruct all_data with pre-processed data
 all_data <- cbind(all_data[numeric_feats],categorical_1_hot)
+#remove ElectricalMix category
+all_data <- subset(all_data, select=-c(ElectricalMix))
+all_data[,1] <- NULL
+
+#combine the Ext1 and Ext2 variables with element-wise logical OR
+combine_ext <- matrix(FALSE, nrow = 2919, ncol=16)
+for (i in 1:15){
+  combine_ext[,i] <- all_data[127+i] | all_data[144+i]
+}
+combine_ext <- combine_ext+0
+all_data[,128:143] <- combine_ext
+all_data[,143:158] <- NULL
 
 # create data for training and test
 X_train <- all_data[1:nrow(train),]
 X_test <- all_data[(nrow(train)+1):nrow(all_data),]
 y <- train$SalePrice
-all_train = cbind(X_train, y)
+all_train <-  cbind(X_train, y)
 
-write.csv(X_train, file = 'Data/train_processed.csv')
 write.csv(all_train, file = 'Data/trainy_processed.csv')
 write.csv(X_test, file = 'Data/test_processed.csv')
-```
-```{r}
-print(numeric_feats)
-```
-
-```{r}
-print(categorical_feats)
-  print(categorical_feats[! categorical_feats %in% remove])
 ```
 
