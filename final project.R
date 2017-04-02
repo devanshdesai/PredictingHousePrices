@@ -19,7 +19,7 @@ validationplot(pcr.fit50,val.type = "MSEP")
 
 
 #still working out the problems in this#
-pls.fit=plsr(y~.,data=trainy_processed, validation="CV", scale=TRUE, ncomp=20)
+pls.fit=plsr(y~.,data=trainy_processed, validation="CV")
 validationplot(pls.fit,val.type = "MSEP")
 summary(pls.fit)
 
