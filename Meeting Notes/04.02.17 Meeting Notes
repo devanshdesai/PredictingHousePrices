@@ -1,0 +1,10 @@
+# 04/02/17
+
+## Notes
+* Devansh, Kevin and Lauren got Kaggle scores for their respective models
+* We created plots and recorded all of our Kaggle scores using different tuning parameters (such as mtry for random forests)
+* Lauren completed PLS and PCR and retrieved predictions and scores for both models. She still has forward and backward selection left
+* Devansh completed random forests, bagging, and boosting with various tuning parameters
+* Kevin completed a single decision tree with different tree pruning parameters
+* John still needs to complete his assignment
+* Weston's assignment was boosting but I (Devansh) did that for the homework and got a good score on Kaggle
