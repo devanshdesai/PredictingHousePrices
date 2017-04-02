@@ -1,4 +1,4 @@
-Model (Using best tuning parameter),Kaggle Score
+Model (Using best tuning parameter),Kaggle Score (RMSE)
 Bagging,0.14512
 Boosting,0.14195
 Random Forest,0.132
