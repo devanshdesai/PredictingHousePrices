@@ -1,11 +1,11 @@
 library(leaps)
 regfit.bwd=regsubsets(y~.,data = trainy_processed, method = "backward", really.big = TRUE, nbest = 1, nvmax =25)
-summary(regfit.fullbwd)
-coef(regfit.fullbwd,25)
+summary(regfit.bwd)
+coef(regfit.bwd,25)
 
 regfit.fwd=regsubsets(y~.,data = trainy_processed, method = "forward", really.big = TRUE, nvmax=30)
-summary(regfit.fullfwd)
-coef(regfit.fullfwd,30)
+summary(regfit.fwd)
+coef(regfit.fwd,30)
 
 library(pls)
 pcr.fit5=pcr(y~.,data=trainy_processed, validation="CV", ncomp=5)
