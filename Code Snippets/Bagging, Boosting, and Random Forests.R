@@ -38,7 +38,9 @@ qplot(mtry_values, kaggle_scores, main = "Random Forest Model - Kaggle Scores vs
 dev.off()
 
 
-
-boost = gbm(train$y ~., data = train, distribution = "gaussian", n.trees = 5000, shrinkage = 0.1)
-predBoost = exp(predict(boost, test, n.trees = 20000))
-write.csv(predBoost, file = "BoostingPredictions.csv")
+for (i in 1:10) {
+    boost = gbm(train$y ~., data = train, distribution = "gaussian", n.trees = i*2000, shrinkage = 0.1)
+    predBoost = exp(predict(boost, test, n.trees = i*2000))
+    filename = paste("Prediction CSVs/BoostingPredictions", toString(i*2000), sep = "")
+    write.csv(predBoost, file = paste(filename, ".csv", sep = ""))
+}

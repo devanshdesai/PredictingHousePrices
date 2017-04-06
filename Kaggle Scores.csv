@@ -1,6 +1,6 @@
 Model (Using best tuning parameter),Kaggle Score (RMSE)
 Bagging,0.14512
-Boosting,0.14195
+Boosting,0.12717
 Random Forest,0.132
 PLS, 0.3301
 PCR,0.4188
