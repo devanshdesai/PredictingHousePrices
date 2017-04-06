@@ -1,0 +1,51 @@
+---
+title: "Decision "
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+train = read.csv('../Data/trainy_processed.csv')
+test = read.csv('../Data/test_processed.csv')
+```
+
+```{r}
+library(tree)
+library(ISLR)
+tree.house = tree(y~.,data=train)
+```
+
+```{r}
+summary(tree.house)
+```
+
+```{r}
+pred = predict(tree.house,test)
+SalePrice = exp(pred)
+ID = 1461:2919
+d = cbind(ID, SalePrice)
+write.csv(d, file = 'result.csv')
+```
+
+```{r}
+cv.house= cv.tree(tree.house)
+plot(cv.house$size,cv.house$dev,type='b',xlab='Tree Size', ylab = 'Deviance')
+```
+
+```{r}
+prune.house = prune.tree(tree.house,best=7)
+prune.pred = predict(prune.house,test)
+SalePrice = exp(prune.pred)
+d = cbind(ID, SalePrice)
+write.csv(d, file = 'resultp7.csv')
+```
+```{r}
+#kaggle scores
+scores = c(.24603,.23794,.23524,.22846,.22482)
+sizes = c(6,7,8,9,10)
+plot(sizes,scores,type='b', main='Size of Regression Tree vs. Score',xlab='Tree Size', ylab='Kaggle Score')
+```
+
