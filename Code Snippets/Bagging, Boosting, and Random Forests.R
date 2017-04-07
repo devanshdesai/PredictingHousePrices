@@ -34,13 +34,18 @@ for (i in 1:8) {
 }
 kaggle_scores = c(0.14247, 0.14302, 0.14197, 0.14214, 0.14218, 0.14195, 0.14275, 0.14219)
 pdf("Random Forest Kaggle Score Plot.pdf")
-qplot(mtry_values, kaggle_scores, main = "Random Forest Model - Kaggle Scores vs Mtry Parameter", ylab = "Kaggle Score (RMSE)", xlab = "Mtry Parameter")
+qplot(mtry_values, kaggle_scores, main = "Random Forest Model - Kaggle Scores vs Mtry Parameter", ylab = "Kaggle Score (RMSLE)", xlab = "Mtry Parameter")
 dev.off()
 
 
 for (i in 1:10) {
-    boost = gbm(train$y ~., data = train, distribution = "gaussian", n.trees = i*2000, shrinkage = 0.1)
-    predBoost = exp(predict(boost, test, n.trees = i*2000))
-    filename = paste("Prediction CSVs/BoostingPredictions", toString(i*2000), sep = "")
+    boost = gbm(train$y ~., data = train, distribution = "gaussian", n.trees = i*200, shrinkage = 0.1)
+    predBoost = exp(predict(boost, test, n.trees = i*200))
+    filename = paste("Prediction CSVs/BoostingPredictions", toString(i*200), sep = "")
     write.csv(predBoost, file = paste(filename, ".csv", sep = ""))
 }
+trees_used = c(seq(200, 2000, 200), seq(4000, 20000, 2000))
+kaggle_scores = c(0.13622, 0.13127, 0.13119, 0.12777, 0.12901, 0.12866, 0.12882, 0.12920, 0.13063, 0.12717, 0.13166, 0.13321, 0.13526, 0.13719, 0.13602, 0.13949, 0.14019, 0.14206, 0.14217)
+pdf("Boosting Kaggle Score Plot.pdf")
+qplot(trees_used, kaggle_scores, main = "Boosting Model - Kaggle Scores vs Trees Used Parameter", ylab = "Kaggle Score (RMSLE)", xlab = "Trees Used Parameter")
+dev.off()
