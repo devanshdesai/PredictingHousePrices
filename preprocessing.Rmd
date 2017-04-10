@@ -155,12 +155,6 @@ for (x in numeric_feats) {
 ```
 
 ```{r}
-a = c(0,1,1,1,0, 0)
-b = c(1,0,1,0,1, 0)
-(a+b)%%2
-```
-
-```{r}
 # reconstruct all_data with pre-processed data
 all_data <- cbind(all_data[numeric_feats],categorical_1_hot)
 #remove ElectricalMix category

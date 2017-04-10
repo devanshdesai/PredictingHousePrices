@@ -34,6 +34,12 @@ write.csv(d, file = 'result.csv')
 cv.house= cv.tree(tree.house)
 plot(cv.house$size,cv.house$dev,type='b',xlab='Tree Size', ylab = 'Deviance')
 ```
+```{r}
+prune.house = prune.tree(tree.house,best=7)
+prune.pred = predict(prune.house,test)
+summary(prune.house)
+```
+
 
 ```{r}
 prune.house = prune.tree(tree.house,best=7)
