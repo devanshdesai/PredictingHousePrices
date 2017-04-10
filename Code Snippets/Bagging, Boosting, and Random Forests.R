@@ -22,8 +22,6 @@ bag = randomForest(train$y ~., data = train, mtry = 212, trees = 20000, importan
 predBag = exp(predict(bag, test))
 write.csv(predBag, file = "Prediction CSVs/BaggingPredictions.csv")
 
-
-
 # Here, we try 8 different mtry values for random forests using 20,000 trees each
 mtry_values = seq(25, 200, 25)
 for (i in 1:8) {
