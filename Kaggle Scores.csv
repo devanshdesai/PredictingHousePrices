@@ -1,13 +1,14 @@
 Model (Using best tuning parameter),Kaggle Score (RMSE)
 Bagging,0.14512
 Boosting,0.12717
-Random Forest,0.132
+Random Forest,0.13200
 PLS,0.3301
 PCR,0.4188
 KNN,0.33765
 <<<<<<< HEAD
 Ridge,0.13243
 Lasso,0.13053
+GAM,0.30966
 =======
 Regression Tree,0.22482
 >>>>>>> origin/master
