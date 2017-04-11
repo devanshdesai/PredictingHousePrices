@@ -5,3 +5,5 @@ Random Forest,0.132
 PLS,0.3301
 PCR,0.4188
 KNN,0.33765
+Ridge,0.13243
+Lasso,0.13053
