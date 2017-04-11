@@ -5,6 +5,7 @@ Random Forest,0.13200
 PLS,0.3301
 PCR,0.4188
 KNN,0.33765
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 Ridge,0.13243
 Lasso,0.13053
@@ -12,3 +13,6 @@ GAM,0.30966
 =======
 Regression Tree,0.22482
 >>>>>>> origin/master
+=======
+GAM,0.309
+>>>>>>> Stashed changes
